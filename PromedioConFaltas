@@ -1,0 +1,39 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+using namespace std;
+void main()
+{
+	int N,i;
+	float P1,P2,NP,faltas,NF, promedio;
+	cout<< "Ingrese numero de estudiantes: ";
+	cin>> N;
+	i=0;
+	while (i<N)
+	{
+		cout<< "Ingrese nota de primer parcial: ";
+		cin>> P1;
+		cout<< "Ingrese nota de segundo parcial: ";
+		cin>> P2;
+		cout<< "Ingrese nota practica: ";
+		cin>> NP;
+		cout<<"Ingrese el numero de faltas: ";
+		cin>>faltas;
+		if(faltas>=10)
+		{
+			cout<<"Usted excedio el numero maximo de faltas."<<endl;
+			NF=0;
+		}else
+		{
+			cout<<"Ingrese la nota del examen final: ";
+			cin>> NF;
+		}
+		promedio=(NP*0.2)+(((P1+P2)/2)*0.4)+(NF*0.4);
+		if(promedio<51)
+			cout<<"Usted reprobo la materia con: "<<promedio<<" puntos."<<endl;
+		else
+			cout<<"Usted aprobo la materia con: "<<promedio<<" puntos."<<endl;
+		i++;
+	}
+	getch();
+}
