@@ -1,0 +1,59 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "math.h"
+
+using namespace std;
+
+void ecuaCuad (float a, float b, float c);
+float discriminante (float a, float b, float c);
+
+void main()
+{
+	float a,b,c;
+	cout<<"Ingrese el valor de a: "<<endl;
+	cin>>a;
+	cout<<"Ingrese el valor de b: "<<endl;
+	cin>>b;
+	cout<<"Ingrese el valor de c: "<<endl;
+	cin>>c;
+	ecuaCuad(a,b,c);
+	getch();
+}
+
+void ecuaCuad (float a, float b, float c)
+{
+	float z,x1,x2;
+	float p=(-b/(2*a));
+	if(a==0)
+	{
+		cout<<"La ecuacion tiene infinitas soluciones."<<endl;
+	}else{
+		z=discriminante (a,b,c);
+		if(z<0)
+		{
+			z=z*(-1);
+			cout<<"Las soluciones son imaginarias: "<<endl;
+			cout<<"X1= "<< p <<" + "<< (sqrt(z))/(2*a) <<" i "<<endl;
+			cout<<"X2= "<< p <<" - "<< (sqrt(z))/(2*a) <<" i "<<endl;
+		}else{
+			x1=((-b+sqrt(z))/(2*a));
+			x2=((-b-sqrt(z))/(2*a));
+			if(x1==x2)
+			{
+				cout<<"Solucion unica"<<endl;
+				cout<<"x= "<<x1<<endl;			
+			}else{
+			cout<<"x1= "<<x1<<endl;
+			cout<<"x2= "<<x2<<endl;
+			}
+		}
+	}
+}
+
+float discriminante (float a, float b, float c)
+{
+	float z;
+	z=(b*b)-(4*a*c);
+	return z;
+}
