@@ -1,0 +1,57 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#define MAX 100
+
+using namespace std;
+
+void cargar (double a[],int nA);
+void mostrar (double vec[],int tam);
+void concatenar (double a[],double b[],double c[],int nA, int nB);
+
+void main()
+{
+	int nB,nA;
+	double a[MAX],b[MAX],c[MAX];
+	do{
+		cout<<"Ingrese el tamaño del vector A: ";
+		cin>>nA;
+	}while((nA<=0)&&(nA>MAX));
+	cargar(a,nA);
+	do{
+		cout<<"Ingrese el tamaño del vector B: ";
+		cin>>nB;
+	}while((nB<=0)&&(nB>MAX));
+	cargar(b,nB);
+	concatenar (a,b,c,nA,nB);
+	getch();
+}
+void cargar (double a[],int n)
+{
+	for(int i=0;i<n;i++)
+	{
+		cout<<"a[ "<<i<<" ]=" ;
+		cin>>a[i];
+	}
+}
+void mostrar (double vec[],int tam)
+{
+	for(int i=0;i<tam;i++)
+		cout<<"a[ "<<i<<" ]=" <<vec[i]<<endl;
+}
+void concatenar (double a[],double b[],double c[],int nA, int nB)
+{
+	int l=0;
+	for(int i=0;i<nA;i++)
+	{
+		c[l]=a[i];
+		l++;
+	}
+	for(int j=0;j<nB;j++)
+	{
+		c[l]=b[j];
+		l++;
+	}
+	for(int k=0;k<l;k++)
+		cout<<"c[ " << k << " ]= "<<c[k]<<endl;
+}
