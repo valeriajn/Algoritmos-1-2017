@@ -1,0 +1,1701 @@
+
+
+// ProyectoFinalAlgoritmos.cpp : Defines the entry point for
+the console application.                                                                                      GITHUB                https://github.com/marianalopezdulon/ALGORITMOS-I                                                                                                               
+
+//LIBRERIAS                                                                                        Asistencia
+de DevFest                                                                                                                    
+
+#include "stdafx.h"                                                                                                                                                                                                                         
+
+#include <iostream>                                                                                                                                                                                                                      
+
+#include "conio.h"                                                                                                                                                                                                                           
+
+#include <string.h>                                                                                                                                                                                                                         
+
+#include <stdio.h>                                                                                                                                                                                                                          
+
+#include <iomanip>                                                                                                                                                                                                                        
+
+#include "stdlib.h"                                                                                                                                                                                                                           
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+using namespace std;                                                                                                                                                                                                                    
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+//ESTRUCTIURAS                                                                                                                                                                                                                             
+
+                                                                                                                                                                                                                                
+
+struct
+regAdministrador                                                                                                                                                                                                                                
+
+{                                                                                                                                                                                                                              
+
+                int           IdAdm;                                                                                                                                                                                 
+
+                char nombre[30];                                                                                                                                                                                                             
+
+                char telefono[15];                                                                                                                                                                                                           
+
+                char email[20];                                                                                                                                                                                                  
+
+                char contrasenha[4];                                                                                                                                                                                                      
+
+};                                                                                                                                                                                                                             
+
+struct
+regJuego                                                                                                                                                                                                                 
+
+{                                                                                                                                                                                                                              
+
+                int idJuego;                                                                                                                                                                                                         
+
+                char fecha[10];                                                                                                                                                                                                  
+
+                char estado;                                                                                                                                                                                                       
+
+};                                                                                                                                                                                                                             
+
+struct
+fecha                                                                                                                                                                                                                        
+
+{                                                                                                                                                                                                                              
+
+int dia;                                                                                                                                                                                                                  
+
+int mes;                                                                                                                                                                                                                                
+
+int anho;                                                                                                                                                                                                                              
+
+};                                                                                                                                                                                                                             
+
+                                                                                                                                                                                                                                
+
+struct regParticipantes                                                                                                                                                                                                                  
+
+{                                                                                                                                                                                                                              
+
+                int idparticipante;                                                                                                                                                                                                            
+
+                char nombre[30];                                                                                                                                                                                                             
+
+                char telefono[10];                                                                                                                                                                                                           
+
+                char email[15];                                                                                                                                                                                                  
+
+                int
+monto;                                                                                                                                                                                                           
+
+                int
+turno;                                                                                                                                                                                                             
+
+                char estado;                                                                                                                                                                                                       
+
+};                                                                                                                                                                                                                             
+
+//VALIDACIONES
+GENERALES                                                                                                                                                                                                                     
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+regAdministrador
+verificarContrasenha(int idAdm)                                                                                                                                                                                                                          
+
+{                                                                                                                                                                                                                              
+
+FILE *ptr;                                                                                                                                                                                                                             
+
+regAdministrador reg;                                                                                                                                                                                                                   
+
+ptr=fopen("Administrador.dat","rb");                                                                                                                                                                                                                    
+
+if(ptr!=NULL)                                                                                                                                                                                                                     
+
+{                                                                                                                                                                                                                              
+
+fread(&reg,sizeof(reg),1,ptr);                                                                                                                                                                                                                    
+
+while(!feof(ptr) && reg.IdAdm!=idAdm)                                                                                                                                                                                                                              
+
+{                                                                                                                                                                                                                              
+
+                fread(&reg,sizeof(reg),1,ptr);                                                                                                                                                                                                    
+
+}                                                                                                                                                                                                                              
+
+}                                                                                                                                                                                                                              
+
+return reg;                                                                                                                                                                                                                          
+
+fclose(ptr);                                                                                                                                                                                                                         
+
+}                                                                                                                                                                                                                              
+
+//JUEGO                                                                                                                                                                                                                              
+
+bool
+validarfechastring(char a[30])//valida que la fecha ingresada contenga el
+siguiente formato 20/10/2013                                                                                                                                                                                                                       
+
+{                                                                                                                                                                                                                              
+
+                int
+i=0,n=strlen(a);                                                                                                                                                                                                          
+
+                if(n!=10)                                                                                                                                                                                                              
+
+return false;                                                                                                                                                                                                                       
+
+                for(i=0;
+i<n; i++)                                                                                                                                                                                                               
+
+                {                                                                                                                                                                                                              
+
+                                if(i==0
+|| i== 1 || i==3 || i== 4 || i==6 || i==7 || i==9 || i==8)                                                                                                                                                                                    
+
+                                                if(a[i]<
+48 || a[i]>57 )                                                                                                                                                                     
+
+                                                                return
+false;                                                                                                                                                       
+
+                                if(i==2
+|| i==5 )                                                                                                                                                                                 
+
+                                                if(a[i]!='/')                                                                                                                                                                           
+
+                                                                return
+false;                                                                                                                                                       
+
+                }                                                                                                                                                                                                              
+
+                return
+true;                                                                                                                                                                                                        
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+void crearArchivoJuego(char nomArch[15])                                                                                                                                                                                                                         
+
+{                                                                                                                                                                                                                              
+
+                FILE
+*ptr;                                                                                                                                                                                                             
+
+                ptr=fopen(nomArch,"wb+");                                                                                                                                                                                                     
+
+                fclose(ptr);                                                                                                                                                                                                         
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+bool
+validarcontrasenha(char cad[])                                                                                                                                                                                                                        
+
+{                                                                                                                                                                                                                              
+
+                int
+i=0;                                                                                                                                                                                                  
+
+                bool
+aceptar=true;                                                                                                                                                                                                          
+
+                while(cad[i]!='\0')                                                                                                                                                                                                            
+
+                {                                                                                                                                                                                                              
+
+                                if(!((cad[i]
+>= 65 && cad[i] <= 90) || (cad[i] >= 97 && cad[i]
+<= 122)||(cad[i]>=48 && cad[i]<=57)))                                                                                                                                                                                                
+
+                                {                                                                                                                                                                                              
+
+                                                aceptar=
+false;                                                                                                                                                                  
+
+                                }                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+                }                                                                                                                                                                                                              
+
+                return(aceptar);                                                                                                                                                                                                               
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+bool
+validarfecha(char a[30])//valida que la fecha ingresada contenga el siguiente
+formato 20/10/2013                                                                                                                                                                                                                  
+
+{                                                                                                                                                                                                                              
+
+                int
+i=0,n=strlen(a);                                                                                                                                                                                                          
+
+                if(n!=10)                                                                                                                                                                                                              
+
+return false;                                                                                                                                                                                                                       
+
+                for(i=0;
+i<n; i++)                                                                                                                                                                                                               
+
+                {                                                                                                                                                                                                              
+
+                                if(i==0
+|| i== 1 || i==3 || i== 4 || i==6 || i==7 || i==9 || i==8)                                                                                                                                                                                    
+
+                                                if(a[i]<
+48 || a[i]>57 )                                                                                                                                                                     
+
+                                                                return
+false;                                                                                                                                                       
+
+                                if(i==2
+|| i==5 )                                                                                                                                                                                 
+
+                                                if(a[i]!='/')                                                                                                                                                                           
+
+                                                                return
+false;                                                                                                                                                       
+
+                }                                                                                                                                                                                                              
+
+                return
+true;                                                                                                                                                                                                        
+
+}                                                                                                                                                                                                                              
+
+bool bisiesto(int x)                                                                                                                                                                                                                          
+
+{                                                                                                                                                                                                                              
+
+                if
+(x%100 == 0)                                                                                                                                                                                                  
+
+                {                                                                                                                                                                                                              
+
+                                if((x/100)%4
+== 0)                                                                                                                                                                                            
+
+                                                return
+true;                                                                                                                                                                        
+
+                                else                                                                                                                                                                                        
+
+                                                return
+false;                                                                                                                                                                       
+
+                }                                                                                                                                                                                                              
+
+                else                                                                                                                                                                                                        
+
+                {                                                                                                                                                                                                              
+
+                                if(x%4 == 0)                                                                                                                                                                                        
+
+                                                return
+true;                                                                                                                                                                        
+
+                                else                                                                                                                                                                                        
+
+                                                return
+false;                                                                                                                                                                       
+
+                }                                                                                                                                                                                                              
+
+}                                                                                                                                                                                                                              
+
+fecha
+sacarfechaenteros(char a[30])                                                                                                                                                                                                                       
+
+{                                                                                                                                                                                                                              
+
+                fecha f;                                                                                                                                                                                                 
+
+                f.dia=f.mes=f.anho=0;                                                                                                                                                                                                  
+
+                if(strlen(a)==10)                                                                                                                                                                                                               
+
+                                sscanf(a,"%d/%d/%d",&f.dia,&f.mes,&f.anho);                                                                                                                                                                                                
+
+                return
+f;                                                                                                                                                                                                               
+
+}                                                                                                                                                                                                                              
+
+bool dia_valido(int d,int m,int s){                                                                                                                                                                                                                              
+
+                if(d<1){                                                                                                                                                                                                 
+
+                                return
+false;                                                                                                                                                                                       
+
+                }                                                                                                                                                                                                              
+
+                if((m==1||m==3||m==5||m==7||m==8||m==10||m==12)){                                                                                                                                                                                                   
+
+                                if(d>=32){                                                                                                                                                                                            
+
+                                                return
+false;                                                                                                                                                                       
+
+                                                }                                                                                                                                                                              
+
+                }                                                                                                                                                                                                              
+
+                if((m==4||m==6||m==9||m==11)){                                                                                                                                                                                                      
+
+                                if(d>=31){                                                                                                                                                                                            
+
+                                                return
+false;                                                                                                                                                                       
+
+                                }                                                                                                                                                                                              
+
+                }                                                                                                                                                                                                              
+
+                if(m==2&&bisiesto(s)){                                                                                                                                                                                                 
+
+                                if(d>29){                                                                                                                                                                                              
+
+                                                return
+false;                                                                                                                                                                       
+
+                                }                                                                                                                                                                                              
+
+                }                                                                                                                                                                                                              
+
+                if(m==2&&!bisiesto(s)){                                                                                                                                                                                                               
+
+                                if(d>28){                                                                                                                                                                                              
+
+                                                return
+false;                                                                                                                                                                       
+
+                                }                                                                                                                                                                                              
+
+                }                                                                                                                                                                                                              
+
+return true;                                                                                                                                                                                                                        
+
+}                                                                                                                                                                                                                              
+
+bool
+validarfecha(fecha f)                                                                                                                                                                                                                            
+
+{                                                                                                                                                                                                                              
+
+                if(f.anho<2000)                                                                                                                                                                                                 
+
+                                return
+false;                                                                                                                                                                                       
+
+                if(f.mes<1
+|| f.mes>12)                                                                                                                                                                                                                
+
+                                return
+false;                                                                                                                                                                                       
+
+if(!dia_valido(f.dia,f.mes,f.anho))                                                                                                                                                                                                                            
+
+                                return
+false;                                                                                                                                                                                       
+
+                return
+true;                                                                                                                                                                                                        
+
+}                                                                                                                                                                                                                              
+
+void solicitarDatosJuego(regJuego *reg)                                                                                                                                                                                                                               
+
+{                                                                                                                                                                                                                              
+
+                fecha
+f;                                                                                                                                                                                                 
+
+                cout<<"IdJuego:
+";                                                                                                                                                                                                          
+
+                cin>>reg->idJuego;                                                                                                                                                                                                         
+
+                                                                                                                                                                                                                                
+
+                fflush(stdin);                                                                                                                                                                                                      
+
+                do{                                                                                                                                                                                                         
+
+                                gets(reg->fecha);                                                                                                                                                                                            
+
+                                f=sacarfechaenteros(reg->fecha);                                                                                                                                                                                           
+
+                                if(!validarfechastring(reg->fecha)
+|| !validarfecha(f))                                                                                                                                                                                     
+
+cout<<"Introduzca
+fecha valida (dd/mm/aaaa): ";                                                                                                                                                                                                                            
+
+                }while(!validarfechastring(reg->fecha)||
+!validarfecha(f));                                                                                                                                                                                                          
+
+                fflush(stdin);                                                                                                                                                                                                      
+
+                reg->estado='N';                                                                                                                                                                                                              
+
+}                                                                                                                                                                                                                              
+
+void
+adicionarRegistroJuego(char nomArch[15])                                                                                                                                                                                                                                
+
+{//adiciona
+un registro al final del archivo                                                                                                                                                                                                                              
+
+                FILE *ptr;                                                                                                                                                                                                             
+
+                ptr=fopen(nomArch,"ab");                                                                                                                                                                                                         
+
+                regJuego reg;                                                                                                                                                                                                    
+
+                solicitarDatosJuego(&reg);                                                                                                                                                                                                          
+
+                fwrite(&reg,sizeof(struct
+regJuego),1,ptr);                                                                                                                                                                                                          
+
+                fclose(ptr);                                                                                                                                                                                                         
+
+}                                                                                                                                                                                                                              
+
+void
+mostrarRegistroJuego(regJuego reg,int nroReg)                                                                                                                                                                                                                      
+
+{                                                                                                                                                                                                                              
+
+                cout<<endl<<nroReg<<"     "<<reg.fecha;                                                                                                                                                                                                            
+
+}                                                                                                                                                                                                                              
+
+void
+modificarRegistroJuego(char nomArch[15],int nroReg)                                                                                                                                                                                                                         
+
+{                                                                                                                                                                                                                              
+
+//modificar
+el contenido de un registro del archivo                                                                                                                                                                                                                          
+
+                FILE *ptr;                                                                                                                                                                                                             
+
+                regJuego
+reg;                                                                                                                                                                                                    
+
+                ptr=fopen(nomArch,"r+b");                                                                                                                                                                                                       
+
+                if(ptr==NULL)
+cout<<"el archivo no existe....";                                                                                                                                                                                                   
+
+                else                                                                                                                                                                                                        
+
+                {                                                                                                                                                                                                              
+
+                                fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);                                                                                                                                                                                     
+
+                                fread(&reg,sizeof(struct
+regJuego),1,ptr);                                                                                                                                                                                           
+
+                                if(feof(ptr)) cout<<"el
+registro no existe...";                                                                                                                                                                                       
+
+                                else
+if(reg.estado=='N')                                                                                                                                                                                                
+
+                                {                                                                                                                                                                                              
+
+                                                mostrarRegistroJuego(reg,nroReg);                                                                                                                                                                        
+
+                                                cout<<endl;                                                                                                                                                                       
+
+                                                solicitarDatosJuego(&reg);                                                                                                                                                                          
+
+                                                fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);                                                                                                                                                                     
+
+                                                fwrite(&reg,sizeof(struct
+regJuego),1,ptr);                                                                                                                                                                          
+
+                                }                                                                                                                                                                                              
+
+                                else
+cout<<"Registro Eliminado....";                                                                                                                                                                                        
+
+                                fclose(ptr);                                                                                                                                                                                         
+
+}                                                                                                                                                                                                                              
+
+getch();                                                                                                                                                                                                                                
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+void
+listarArchivoJuego(char nomArch[15])                                                                                                                                                                                                                          
+
+{                                                                                                                                                                                                                              
+
+//muestra
+todo contenido del archivo                                                                                                                                                                                                                    
+
+                FILE *ptr;                                                                                                                                                                                                             
+
+                regJuego
+reg;                                                                                                                                                                                                    
+
+                int
+cont=0;                                                                                                                                                                                                          
+
+                ptr=fopen(nomArch,"rb");                                                                                                                                                                                                          
+
+                if(ptr==NULL)cout<<"El
+archivo no existe...";                                                                                                                                                                                                      
+
+                else{                                                                                                                                                                                                      
+
+                system("cls");                                                                                                                                                                                                    
+
+                cout<<endl<<"          JUEGO                             ";                                                                                                                                                                                                         
+
+                cout<<endl<<"  IdJuego    
+Fecha        ";                                                                                                                                                                                                   
+
+                cout<<endl<<"==================================";                                                                                                                                                                                                   
+
+                fread(&reg,sizeof(struct
+regJuego),1,ptr);                                                                                                                                                                                                           
+
+                while(!feof(ptr))                                                                                                                                                                                                              
+
+                {                                                                                                                                                                                                              
+
+                                mostrarRegistroJuego(reg,cont+1);                                                                                                                                                                                         
+
+                fread(&reg,sizeof(struct
+regJuego),1,ptr);                                                                                                                                                                                                           
+
+                cont++;                                                                                                                                                                                                
+
+                }                                                                                                                                                                                                              
+
+                fclose(ptr);                                                                                                                                                                                                         
+
+                getch();                                                                                                                                                                                                                
+
+                }                                                                                                                                                                                                              
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+void menuJuego()                                                                                                                                                                                                                           
+
+{                                                                                                                                                                                                                              
+
+                int
+opcion=0,nreg=0;                                                                                                                                                                                                      
+
+                do                                                                                                                                                                                                           
+
+                {                                                                                                                                                                                                              
+
+                                system("cls");                                                                                                                                                                                    
+
+                                cout<<"\n   M E N U     
+JUEGO   "<<endl;                                                                                                                                                                                               
+
+                                cout<<"\n1.-
+crear archivo"<<endl;                                                                                                                                                                                         
+
+                                cout<<"\n2.-
+Adicionar
+Juego"<<endl;                                                                                                                                                                                   
+
+                                cout<<"\n3.-
+Modificar Juego"<<endl;                                                                                                                                                                                   
+
+                                cout<<"\n4.-
+Listar todo el archivo"<<endl;                                                                                                                                                                                         
+
+                                cout<<"\n0.-
+Salir"<<endl;                                                                                                                                                                                           
+
+                                cin>>opcion;                                                                                                                                                                                      
+
+                                switch(opcion)                                                                                                                                                                                  
+
+                                {                                                                                                                                                                                              
+
+                                                case
+1: crearArchivoJuego("Juego.dat"); break;                                                                                                                                                                 
+
+                                                case 2:
+adicionarRegistroJuego("Juego.dat"); break;                                                                                                                                                                        
+
+                                                case
+3: cout<<"\nIntroducir nro de ID juego a modificar : ";
+cin>>nreg; modificarRegistroJuego("Juego.dat",nreg); break;                                                                                                                                                                           
+
+                                                case
+4: listarArchivoJuego("Juego.dat");break;                                                                                                                                                                   
+
+                                }                                                                                                                                                                                              
+
+                }while(opcion!=0);                                                                                                                                                                                                          
+
+}                                                                                                                                                                                                                              
+
+//ADMINISTRADOR                                                                                                                                                                                                                        
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+void
+crearArchivoAdministrador (char nomArch[15])                                                                                                                                                                                                                       
+
+{                                                                                                                                                                                                                              
+
+                FILE *ptr;                                                                                                                                                                                                             
+
+                ptr=fopen(nomArch,"wb+");                                                                                                                                                                                                     
+
+                fclose(ptr);                                                                                                                                                                                                         
+
+}                                                                                                                                                                                                                              
+
+void
+solicitarDatosAdministrador(regAdministrador *reg)                                                                                                                                                                                                                             
+
+{                                                                                                                                                                                                                              
+
+                cout<<"IdAdministrador:
+";                                                                                                                                                                                                         
+
+                cin>>reg->IdAdm;                                                                                                                                                                                                           
+
+                                                                                                                                                                                                                                
+
+                fflush(stdin);                                                                                                                                                                                                      
+
+                                                                                                                                                                                                                                
+
+                cout<<"Nombre:
+";                                                                                                                                                                                                         
+
+                do                                                                                                                                                                                                           
+
+                {                                                                                                                                                                                                              
+
+                                gets(reg->nombre);                                                                                                                                                                                       
+
+                }while(strlen(reg->nombre)==0);                                                                                                                                                                                                             
+
+                                fflush(stdin);                                                                                                                                                                                      
+
+                cout<<"Telefono:
+";                                                                                                                                                                                                        
+
+                do{                                                                                                                                                                                                         
+
+                                gets(reg->telefono);                                                                                                                                                                                      
+
+                }while(strlen(reg->telefono)==0);                                                                                                                                                                                                           
+
+                                fflush(stdin);                                                                                                                                                                                      
+
+                                                                                                                                                                                                                                
+
+                cout<<"E-mail:
+";                                                                                                                                                                                                              
+
+                do{                                                                                                                                                                                                         
+
+                                gets(reg->email);                                                                                                                                                                                             
+
+                }while(strlen(reg->email)==0);                                                                                                                                                                                                  
+
+                fflush(stdin);                                                                                                                                                                                                      
+
+                                                                                                                                                                                                                                
+
+                do{                                                                                                                                                                                                         
+
+                cout<<"Contrasenha:
+";                                                                                                                                                                                                                
+
+                gets(reg->contrasenha);                                                                                                                                                                                                              
+
+                }while(strlen(reg->contrasenha)==0);                                                                                                                                                                                                    
+
+                fflush(stdin);                                                                                                                                                                                                      
+
+                                                                                                                                                                                                                                
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+void
+adicionarRegistroAdministrador(char nomArch[15])                                                                                                                                                                                                                               
+
+{//adiciona
+un registro al final del archivo                                                                                                                                                                                                                              
+
+                FILE *ptr;                                                                                                                                                                                                             
+
+                ptr=fopen(nomArch,"ab");                                                                                                                                                                                                         
+
+                regAdministrador
+reg;                                                                                                                                                                                                   
+
+                solicitarDatosAdministrador(&reg);                                                                                                                                                                                                         
+
+                fwrite(&reg,sizeof(struct
+regAdministrador),1,ptr);                                                                                                                                                                                                         
+
+                fclose(ptr);                                                                                                                                                                                                         
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+void mostrarRegistroAdministrador(regAdministrador reg,int
+nroReg){                                                                                                                                                                                                                  
+
+                                                                                                                                                                                                                                
+
+                cout<<endl<<reg.IdAdm<<"   "<<reg.nombre<<"       "<<reg.telefono<<"
+    "<<reg.email<<"     ";                                                                                                                                                                                                              
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+void
+modificarRegistroAdministrador(char nomArch[15],int nroReg)                                                                                                                                                                                                                        
+
+{                                                                                                                                                                                                                              
+
+//modificar
+el contenido de un registro del archivo                                                                                                                                                                                                                          
+
+                FILE *ptr;                                                                                                                                                                                                             
+
+                regAdministrador
+reg;                                                                                                                                                                                                   
+
+                ptr=fopen(nomArch,"r+b");                                                                                                                                                                                                       
+
+                if(ptr==NULL)
+cout<<"el archivo no existe....";                                                                                                                                                                                                   
+
+                else                                                                                                                                                                                                        
+
+                {                                                                                                                                                                                                              
+
+                                fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);                                                                                                                                                                                     
+
+                                fread(&reg,sizeof(struct
+regAdministrador),1,ptr);                                                                                                                                                                                          
+
+                                if(feof(ptr))
+cout<<"el registro no existe...";                                                                                                                                                                                       
+
+                                else                                                                                                                                                                                        
+
+                                {                                                                                                                                                                                              
+
+                                                mostrarRegistroAdministrador(reg,nroReg);                                                                                                                                                                       
+
+                                                cout<<endl;                                                                                                                                                                       
+
+                                                solicitarDatosAdministrador(&reg);                                                                                                                                                                         
+
+                                                fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);                                                                                                                                                                     
+
+                                                fwrite(&reg,sizeof(struct
+regAdministrador),1,ptr);                                                                                                                                                                         
+
+                                }                                                                                                                                                                                              
+
+                                fclose(ptr);                                                                                                                                                                                         
+
+}                                                                                                                                                                                                                              
+
+getch();                                                                                                                                                                                                                                
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+void
+listarArchivoAdministrador(char nomArch[15])                                                                                                                                                                                                                         
+
+{                                                                                                                                                                                                                              
+
+//muestra
+todo contenido del archivo                                                                                                                                                                                                                    
+
+                FILE *ptr;                                                                                                                                                                                                             
+
+                regAdministrador
+reg;                                                                                                                                                                                                   
+
+                int
+cont=0;                                                                                                                                                                                                          
+
+                ptr=fopen(nomArch,"rb");                                                                                                                                                                                                          
+
+                if(ptr==NULL)cout<<"El
+archivo no existe...";                                                                                                                                                                                                      
+
+                else{                                                                                                                                                                                                      
+
+                system("cls");                                                                                                                                                                                                    
+
+                cout<<endl<<"***                          ADMINISTRADOR                             ";                                                                                                                                                                                                           
+
+                cout<<endl<<"  IdAdm                  Nombre                               Telefono                              email    ";                                                                                                              
+
+                cout<<endl<<"=========================================================";                                                                                                                                                                                                      
+
+                fread(&reg,sizeof(struct
+regAdministrador),1,ptr);                                                                                                                                                                                                          
+
+                while(!feof(ptr))                                                                                                                                                                                                              
+
+                {                                                                                                                                                                                                              
+
+                                mostrarRegistroAdministrador(reg,cont+1);                                                                                                                                                                                        
+
+                fread(&reg,sizeof(struct
+regAdministrador),1,ptr);                                                                                                                                                                                                          
+
+                cont++;                                                                                                                                                                                                
+
+                }                                                                                                                                                                                                              
+
+                fclose(ptr);                                                                                                                                                                                                         
+
+                getch();                                                                                                                                                                                                                
+
+                }                                                                                                                                                                                                              
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+void menuAdministrador()                                                                                                                                                                                                                          
+
+{                                                                                                                                                                                                                              
+
+                int
+opcion=0,nreg=0;                                                                                                                                                                                                      
+
+                do                                                                                                                                                                                                           
+
+                {                                                                                                                                                                                                              
+
+                                system("cls");                                                                                                                                                                                    
+
+                                cout<<"\n   M E N U     
+A D M I N I S T R A D O R  
+"<<endl;                                                                                                                                                                                             
+
+                                cout<<"\n1.-
+crear archivo"<<endl;                                                                                                                                                                                         
+
+                                cout<<"\n2.-
+Datos
+Administrador"<<endl;                                                                                                                                                                                         
+
+                                cout<<"\n3.-
+Modificar Datos Administrador"<<endl;                                                                                                                                                                                     
+
+                                cout<<"\n4.-
+Ver Datos Administrador"<<endl;                                                                                                                                                                                 
+
+                                cout<<"\n0.-
+Salir"<<endl;                                                                                                                                                                                           
+
+                                cin>>opcion;                                                                                                                                                                                      
+
+                                switch(opcion)                                                                                                                                                                                  
+
+                                {                                                                                                                                                                                              
+
+                                                case
+1: crearArchivoAdministrador("Administrador.dat"); break;                                                                                                                                                                               
+
+                                                case
+2: adicionarRegistroAdministrador("Administrador.dat"); break;                                                                                                                                                                      
+
+                                                case
+3: cout<<"\nIntroducir nro de ID juego a modificar : ";
+cin>>nreg;
+modificarRegistroAdministrador("Administrador.dat",nreg); break;                                                                                                                                                                         
+
+                                                case
+4: listarArchivoAdministrador("Administrador.dat");break;                                                                                                                                                                 
+
+                                                case
+0: system("pause");break;                                                                                                                                                                 
+
+                                                default:
+cout <<endl<<endl<< "OPCION NO  VALIDA"<<endl<<endl;                                                                                                                                                                      
+
+                                                                                system("pause");                                                                                                                                            
+
+                                                                                system("cls");                                                                                                                                    
+
+                                                                                cin.clear();                                                                                                                                           
+
+                                                                                cin.ignore(10000,
+'\n');                                                                                                                                   
+
+                                                                                break;                                                                                                                                   
+
+                                }                                                                                                                                                                                              
+
+                }while(opcion!=0);                                                                                                                                                                                                          
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+//PARTICIPANTES                                                                                                                                                                                                                            
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+void
+crearArchivoParticipantes (char nomArch[15])                                                                                                                                                                                                                          
+
+{                                                                                                                                                                                                                              
+
+                FILE
+*ptr;                                                                                                                                                                                                             
+
+                ptr=fopen(nomArch,"wb+");                                                                                                                                                                                                     
+
+                fclose(ptr);                                                                                                                                                                                                         
+
+}                                                                                                                                                                                                                              
+
+bool validarturno(int c)                                                                                                                                                                                                                  
+
+{                                                                                                                                                                                                                              
+
+FILE *ptr;                                                                                                                                                                                                                             
+
+regParticipantes reg;                                                                                                                                                                                                                      
+
+if(fopen("Participantes.dat","rb")==
+NULL)                                                                                                                                                                                                                         
+
+                {   cout << "Archivo no existe
+";                                                                                                                                                                                                  
+
+                                return(false);                                                                                                                                                                                     
+
+                }                                                                                                                                                                                                              
+
+else                                                                                                                                                                                                                        
+
+{    ptr =
+fopen("Participantes.dat","rb");                                                                                                                                                                                                                               
+
+                fread(&reg,sizeof(reg),1,ptr);                                                                                                                                                                                                    
+
+                while(!feof(ptr))                                                                                                                                                                                                              
+
+                {if(reg.turno
+== c)                                                                                                                                                                                                            
+
+                                {                                                                                                                                                                                              
+
+                                                fclose(ptr);                                                                                                                                                                         
+
+                                                return(false);                                                                                                                                                                     
+
+                                }                                                                                                                                                                                              
+
+                                fread(&reg,sizeof(reg),1,ptr);                                                                                                                                                                                    
+
+                                }                                                                                                                                                                                              
+
+                fclose(ptr);                                                                                                                                                                                                         
+
+                return(true);                                                                                                                                                                                                      
+
+                }                                                                                                                                                                                                              
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+void solicitarDatosParticipantes(regParticipantes *reg,int
+c)                                                                                                                                                                                                                         
+
+{                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+                cout<<"Idparticipante:
+";                                                                                                                                                                                                              
+
+                cin>>reg->idparticipante;                                                                                                                                                                                                             
+
+                                                                                                                                                                                                                                
+
+                fflush(stdin);                                                                                                                                                                                                      
+
+                cout<<"Nombre:
+";                                                                                                                                                                                                         
+
+                do                                                                                                                                                                                                           
+
+                {                                                                                                                                                                                                              
+
+                                gets(reg->nombre);                                                                                                                                                                                       
+
+                }while(strlen(reg->nombre)==0);                                                                                                                                                                                                             
+
+                                fflush(stdin);                                                                                                                                                                                      
+
+                cout<<"Telefono:
+";                                                                                                                                                                                                        
+
+                do{                                                                                                                                                                                                         
+
+                                gets(reg->telefono);                                                                                                                                                                                      
+
+                }while(strlen(reg->telefono)==0);                                                                                                                                                                                                           
+
+                                fflush(stdin);                                                                                                                                                                                      
+
+                                                                                                                                                                                                                                
+
+                cout<<"E-mail:
+";                                                                                                                                                                                                              
+
+                do{                                                                                                                                                                                                         
+
+                                gets(reg->email);                                                                                                                                                                                             
+
+                }while(strlen(reg->email)==0);                                                                                                                                                                                                  
+
+                fflush(stdin);                                                                                                                                                                                                      
+
+                cout<<"Monto:
+";                                                                                                                                                                                                            
+
+                cin>>reg->monto;                                                                                                                                                                                                           
+
+                                                                                                                                                                                                                                
+
+                if((reg->monto)==0)                                                                                                                                                                                                      
+
+                {                                                                                                                                                                                                              
+
+                                reg->estado='D';                                                                                                                                                                                              
+
+                }                                                                                                                                                                                                              
+
+                else                                                                                                                                                                                                        
+
+                {                                                                                                                                                                                                              
+
+                                reg->estado='C';                                                                                                                                                                                              
+
+                }                                                                                                                                                                                                              
+
+                do                                                                                                                                                                                                           
+
+                {                                                                                                                                                                                                              
+
+                                reg->turno=c;                                                                                                                                                                                    
+
+                                c++;                                                                                                                                                                                       
+
+                }while(validarturno(reg->turno)==false);                                                                                                                                                                                                             
+
+                                                                                                                                                                                                                                
+
+                fflush(stdin);                                                                                                                                                                                                      
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+void
+adicionarRegistroParticipantes(char nomArch[15],int c)                                                                                                                                                                                                                        
+
+{//adiciona
+un registro al final del archivo                                                                                                                                                                                                                              
+
+                FILE *ptr;                                                                                                                                                                                                             
+
+                ptr=fopen(nomArch,"ab");                                                                                                                                                                                                         
+
+                regParticipantes reg;                                                                                                                                                                                                      
+
+                solicitarDatosParticipantes(&reg,c);                                                                                                                                                                                                         
+
+                fwrite(&reg,sizeof(struct
+regParticipantes),1,ptr);                                                                                                                                                                                                            
+
+                fclose(ptr);                                                                                                                                                                                                         
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+void
+mostrarRegistroParticipantes(regParticipantes reg,int nroReg){                                                                                                                                                                                                                       
+
+                                                                                                                                                                                                                                
+
+                cout<<endl<<reg.idparticipante<<"   "<<reg.nombre<<"      
+"<<reg.telefono<<"     "<<reg.email<<"     "<<reg.monto<<"      "<<reg.turno;                                                                                                                                                                                                          
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+void
+modificarRegistroParticipantes(char nomArch[15],int nroReg,int c)                                                                                                                                                                                                                 
+
+{                                                                                                                                                                                                                              
+
+//modificar
+el contenido de un registro del archivo                                                                                                                                                                                                                          
+
+                FILE *ptr;                                                                                                                                                                                                             
+
+                regParticipantes
+reg;                                                                                                                                                                                                      
+
+                ptr=fopen(nomArch,"r+b");                                                                                                                                                                                                       
+
+                if(ptr==NULL)
+cout<<"el archivo no existe....";                                                                                                                                                                                                   
+
+                else                                                                                                                                                                                                        
+
+                {                                                                                                                                                                                                              
+
+                                fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);                                                                                                                                                                                     
+
+                                fread(&reg,sizeof(struct
+regParticipantes),1,ptr);                                                                                                                                                                                             
+
+                                if(feof(ptr)) cout<<"el
+registro no existe...";                                                                                                                                                                                       
+
+                                else                                                                                                                                                                                        
+
+                                {                                                                                                                                                                                              
+
+                                                mostrarRegistroParticipantes(reg,nroReg);                                                                                                                                                                          
+
+                                                cout<<endl;                                                                                                                                                                       
+
+                                                solicitarDatosParticipantes(&reg,c);                                                                                                                                                                         
+
+                                                fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);                                                                                                                                                                     
+
+                                                fwrite(&reg,sizeof(struct
+regParticipantes),1,ptr);                                                                                                                                                                            
+
+                                }                                                                                                                                                                                              
+
+                                fclose(ptr);                                                                                                                                                                                         
+
+}                                                                                                                                                                                                                              
+
+getch();                                                                                                                                                                                                                                
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+void
+listarArchivoParticipantes(char nomArch[15])                                                                                                                                                                                                                           
+
+{                                                                                                                                                                                                                              
+
+//muestra
+todo contenido del archivo                                                                                                                                                                                                                    
+
+                FILE *ptr;                                                                                                                                                                                                             
+
+                regParticipantes
+reg;                                                                                                                                                                                                      
+
+                int
+cont=0;                                                                                                                                                                                                          
+
+                ptr=fopen(nomArch,"rb");                                                                                                                                                                                                          
+
+                if(ptr==NULL)cout<<"El
+archivo no existe...";                                                                                                                                                                                                      
+
+                else{                                                                                                                                                                                                      
+
+                system("cls");                                                                                                                                                                                                    
+
+                cout<<endl<<"***                          ADMINISTRADOR                             ";                                                                                                                                                                                                           
+
+                cout<<endl<<"  IdAdm                  Nombre                               Telefono              email                     Monto                                                  Turno";                 
+
+                cout<<endl<<"=============================================================================";                                                                                                                                                                                                                
+
+                fread(&reg,sizeof(struct
+regParticipantes),1,ptr);                                                                                                                                                                                                             
+
+                while(!feof(ptr))                                                                                                                                                                                                              
+
+                {                                                                                                                                                                                                              
+
+                                mostrarRegistroParticipantes(reg,cont+1);                                                                                                                                                                                          
+
+                fread(&reg,sizeof(struct
+regParticipantes),1,ptr);                                                                                                                                                                                                             
+
+                cont++;                                                                                                                                                                                                
+
+                }                                                                                                                                                                                                              
+
+                fclose(ptr);                                                                                                                                                                                                         
+
+                getch();                                                                                                                                                                                                                
+
+                }                                                                                                                                                                                                              
+
+}                                                                                                                                                                                                                              
+
+void
+listaDeudores(char nomArch[15])                                                                                                                                                                                                                   
+
+{                                                                                                                                                                                                                              
+
+//muestra
+todo contenido del archivo                                                                                                                                                                                                                    
+
+                FILE *ptr;                                                                                                                                                                                                             
+
+                regParticipantes
+reg;                                                                                                                                                                                                      
+
+                int
+cont=0;                                                                                                                                                                                                          
+
+                ptr=fopen(nomArch,"rb");                                                                                                                                                                                                          
+
+                if(ptr==NULL)cout<<"El
+archivo no existe...";                                                                                                                                                                                                      
+
+                else{                                                                                                                                                                                                      
+
+                system("cls");                                                                                                                                                                                                    
+
+                cout<<endl<<"***                          ADMINISTRADOR                             ";                                                                                                                                                                                                           
+
+                cout<<endl<<"  IdAdm                  Nombre                               Telefono              email                     Monto                                                  Turno";                 
+
+                cout<<endl<<"=============================================================================";                                                                                                                                                                                                                
+
+                fread(&reg,sizeof(struct
+regParticipantes),1,ptr);                                                                                                                                                                                                             
+
+                while(!feof(ptr))                                                                                                                                                                                                              
+
+                {                                                                                                                                                                                                              
+
+                                if(reg.estado=='D')                                                                                                                                                                                          
+
+                                {                                                                                                                                                                                              
+
+                                mostrarRegistroParticipantes(reg,cont+1);                                                                                                                                                                                          
+
+                                fread(&reg,sizeof(struct
+regParticipantes),1,ptr);                                                                                                                                                                                             
+
+                                cont++;                                                                                                                                                                                
+
+                                }                                                                                                                                                                                              
+
+                }                                                                                                                                                                                                              
+
+                fclose(ptr);                                                                                                                                                                                                         
+
+                getch();                                                                                                                                                                                                                
+
+                }                                                                                                                                                                                                              
+
+}                                                                                                                                                                                                                              
+
+void
+listaCumplidos(char nomArch[15])                                                                                                                                                                                                                 
+
+{                                                                                                                                                                                                                              
+
+//muestra
+todo contenido del archivo                                                                                                                                                                                                                    
+
+                FILE *ptr;                                                                                                                                                                                                             
+
+                regParticipantes
+reg;                                                                                                                                                                                                      
+
+                int
+cont=0;                                                                                                                                                                                                          
+
+                ptr=fopen(nomArch,"rb");                                                                                                                                                                                                          
+
+                if(ptr==NULL)cout<<"El
+archivo no existe...";                                                                                                                                                                                                      
+
+                else{                                                                                                                                                                                                      
+
+                system("cls");                                                                                                                                                                                                    
+
+                cout<<endl<<"***                          ADMINISTRADOR                             ";                                                                                                                                                                                                           
+
+                cout<<endl<<"  IdAdm                  Nombre                               Telefono              email                     Monto                                                  Turno";                 
+
+                cout<<endl<<"=============================================================================";                                                                                                                                                                                                                
+
+                fread(&reg,sizeof(struct
+regParticipantes),1,ptr);                                                                                                                                                                                                             
+
+                while(!feof(ptr))                                                                                                                                                                                                              
+
+                {                                                                                                                                                                                                              
+
+                                if(reg.estado=='C')                                                                                                                                                                                          
+
+                                {                                                                                                                                                                                              
+
+                                mostrarRegistroParticipantes(reg,cont+1);                                                                                                                                                                                          
+
+                                fread(&reg,sizeof(struct
+regParticipantes),1,ptr);                                                                                                                                                                                             
+
+                                cont++;                                                                                                                                                                                
+
+                                }                                                                                                                                                                                              
+
+                }                                                                                                                                                                                                              
+
+                fclose(ptr);                                                                                                                                                                                                         
+
+                getch();                                                                                                                                                                                                                
+
+                }                                                                                                                                                                                                              
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+void menuParticipantes()                                                                                                                                                                                                                             
+
+{                                                                                                                                                                                                                              
+
+                int
+opcion=0,nreg=0,cont=0;                                                                                                                                                                                                       
+
+                do                                                                                                                                                                                                           
+
+                {                                                                                                                                                                                                              
+
+                                system("cls");                                                                                                                                                                                    
+
+                                cout<<"\n   M E N U     
+P A R T I C I P A N T E S  
+"<<endl;                                                                                                                                                                                 
+
+                                cout<<"\n1.-
+crear archivo"<<endl;                                                                                                                                                                                         
+
+                                cout<<"\n2.-
+Datos
+Participantes"<<endl;                                                                                                                                                                                            
+
+                                cout<<"\n3.-
+Modificar Datos Participantes"<<endl;                                                                                                                                                                                        
+
+                                cout<<"\n4.-
+Listar Datos Participantes"<<endl;                                                                                                                                                                                
+
+                                cout<<"\n5.-
+Listar Participantes Cumplidos"<<endl;                                                                                                                                                                                       
+
+                                cout<<"\n6.-
+Listar Participantes Deudores"<<endl;                                                                                                                                                                                        
+
+                                cout<<"\n0.-
+Salir"<<endl;                                                                                                                                                                                           
+
+                                cin>>opcion;                                                                                                                                                                                      
+
+                                switch(opcion)                                                                                                                                                                                  
+
+                                {                                                                                                                                                                                              
+
+                                                case
+1: crearArchivoParticipantes("Participantes.dat"); break;                                                                                                                                                                    
+
+                                                case
+2: cont++;                                                                                                                                                                  
+
+                                                                                adicionarRegistroParticipantes("Participantes.dat",cont);
+break;                                                                                                                                               
+
+                                                case
+3: cont ++;                                                                                                                                                                 
+
+                                                                cout<<"\nIntroducir
+nro de ID Participante a modificar : "; cin>>nreg;
+modificarRegistroParticipantes("Participantes.dat",nreg,cont); break;                                                                                                                                                    
+
+                                                case
+4: listarArchivoParticipantes("Participantes.dat");break;                                                                                                                                                                      
+
+                                                case
+5:  listaCumplidos("Participantes.dat");break;                                                                                                                                                           
+
+                                                case
+6: listaDeudores("Participantes.dat");break;                                                                                                                                                                             
+
+                                                                                                                                                                                                                                
+
+                                                case
+0: system("pause");break;                                                                                                                                                                 
+
+                                                default:
+cout <<endl<<endl<< "OPCION NO  VALIDA"<<endl<<endl;                                                                                                                                                                      
+
+                                                                                system("pause");                                                                                                                                            
+
+                                                                                system("cls");                                                                                                                                    
+
+                                                                                cin.clear();                                                                                                                                           
+
+                                                                                cin.ignore(10000,
+'\n');                                                                                                                                   
+
+                                                                                break;                                                                                                                                   
+
+                                }                                                                                                                                                                                              
+
+                }while(opcion!=0);                                                                                                                                                                                                          
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+//MENU                                                                                                                                                                                                                               
+
+bool
+validarContrasenha(char cad[4])                                                                                                                                                                                                                     
+
+{                                                                                                                                                                                                                              
+
+                char *cadena="abc";                                                                                                                                                                                                      
+
+                if(strncmp(cadena,cad,4)==0)                                                                                                                                                                                                    
+
+                {                                                                                                                                                                                                              
+
+                                return
+true;                                                                                                                                                                                        
+
+                }                                                                                                                                                                                                              
+
+                else                                                                                                                                                                                                        
+
+                {                                                                                                                                                                                                              
+
+                                return
+false;                                                                                                                                                                                       
+
+                }                                                                                                                                                                                                              
+
+}                                                                                                                                                                                                                              
+
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                
+
+int main()                                                                                                                                                                                                                            
+
+{                                                                                                                                                                                                                              
+
+                int
+opcion;                                                                                                                                                                                                           
+
+                int id;                                                                                                                                                                                                     
+
+                char contra[4];                                                                                                                                                                                                  
+
+                regAdministrador regA;                                                                                                                                                                                                
+
+                int rev;                                                                                                                                                                                                  
+
+                /*do                                                                                                                                                                                                      
+
+                {                                                                                                                                                                                                              
+
+                                cout<<"Introduzca
+Id De usuario: "<<endl;                                                                                                                                                                                          
+
+                                cin>>id;                                                                                                                                                                                                
+
+                                regV=verificarContrasenha(id);                                                                                                                                                                                 
+
+                                cout<<"Introduzca
+contrasenha: "<<endl;                                                                                                                                                                                            
+
+                                do                                                                                                                                                                                           
+
+                                {                                                                                                                                                                                              
+
+                                gets(contra);                                                                                                                                                                                      
+
+                                                                                                                                                                                                                                
+
+                                }while(strlen(contra)==0);                                                                                                                                                                                           
+
+                                fflush(stdin);                                                                                                                                                                                      
+
+                                rev=strcmp(regV.contrasenha,contra);                                                                                                                                                                                 
+
+                                                                                                                                                                                                                                
+
+                }while(rev!=0);*/                                                                                                                                                                                                             
+
+                                                                                                                                                                                                                                
+
+                cout<<"Introduzca Id Del
+Administrador: "<<endl;                                                                                                                                                                                                           
+
+                cin>>id;                                                                                                                                                                                                                
+
+                cout<<"Introduzca
+contrasena: "<<endl;                                                                                                                                                                                                              
+
+                do                                                                                                                                                                                                           
+
+                {                                                                                                                                                                                                              
+
+                                gets(contra);                                                                                                                                                                                      
+
+                }while(validarContrasenha(contra)==false);                                                                                                                                                                                                        
+
+                fflush(stdin);                                                                                                                                                                                                      
+
+                do{                                                                                                                                                                                                         
+
+                                                                                                                                                                                                                                
+
+                                system("cls");                                                                                                                                                                                    
+
+                                cout<<"                                P A S A N A K
+U      "<<endl;                                                                                                                                                          
+
+                                cout<<"1.
+Administrador"<<endl;                                                                                                                                                                                            
+
+                                cout<<"2.
+Reglas del juego"<<endl;                                                                                                                                                                                        
+
+                                cout<<"3.
+Participantes"<<endl;                                                                                                                                                                                               
+
+                                cout<<"6.
+Reporte de fechas de acuerdo al turno"<<endl;                                                                                                                                                                                           
+
+                                cout<<endl;                                                                                                                                                                                       
+
+                                cout<<"opcion:
+";                                                                                                                                                                                            
+
+                                cin>>opcion;                                                                                                                                                                                      
+
+                                switch(opcion)                                                                                                                                                                                  
+
+                                {                                                                                                                                                                                              
+
+                                                case
+1: menuAdministrador();break;                                                                                                                                                                       
+
+                                                case
+2: menuJuego(); break;                                                                                                                                                                       
+
+                                                case
+3: menuParticipantes();break;                                                                                                                                                                         
+
+                                                case
+0: system("pause");break;                                                                                                                                                                 
+
+                                                default:cout
+<<endl<<endl<< "OPCION NO  VALIDA"<<endl<<endl;                                                                                                                                                                       
+
+                                                                                break;                                                                                                                                   
+
+                                                getch();                                                                                                                                                                                
+
+                                }                                                                                                                                                                                              
+
+                }while(opcion!=0);                                                                                                                                                                                                          
+
+                getch();                                                                                                                                                                                                                
+
+}                              
