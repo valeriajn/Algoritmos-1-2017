@@ -1,0 +1,172 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "stdlib.h"
+#define MAX 40
+
+using namespace std;
+
+void cargar (int vec[],int n);
+void mostrar(int vec[],int n);
+void burbujaAsc(int vec[],int n);
+void burbujaDesc(int vec[],int n);
+float Promedio(int vec[],int n);
+void BusquedaLineal(int vec[],int n, int a);
+void concatenarVector (int a[],int b[],int c[],int n, int m);
+
+void main()
+{
+	int opcion,n,m,vec[MAX],a,b[MAX],c[MAX];
+	float promedio;
+	do{
+	cout<<"Ingrese la cantidad de valores que tendra su vector: ";
+	cin>>n;
+	}while(n<=0);
+	do{
+		cout<<"-----------------------MENU-----------------------"<<endl;
+		cout<<"1. Para cargar el vector."<<endl;
+		cout<<"2. Para mostrar el vector."<<endl;
+		cout<<"3. Para ordenar el vector de manera ascendiente."<<endl;
+		cout<<"4. Para ordenar el vector de manera descendiente."<<endl;
+		cout<<"5. Para obtener el promedio del vector."<<endl;
+		cout<<"6. Para buscar un valor en el vector."<<endl;
+		cout<<"7. Para concatenar dos vectores."<<endl;
+		cout<<"0. Para salir."<<endl;
+		cout<<"Ingrese su opcion: ";
+		cin>>opcion;
+		switch (opcion)
+		{
+			case 1: 
+				{
+					cargar(vec,n);
+				}
+				break;
+			case 2:
+				{
+					mostrar(vec,n);
+				}
+				break;
+			case 3:
+				{
+					burbujaAsc(vec,n);
+					mostrar(vec,n);
+				}
+				break;
+			case 4:
+				{
+					burbujaDesc(vec,n);
+					mostrar(vec,n);
+				}
+				break;
+			case 5:
+				{
+					promedio=Promedio(vec,n);
+					cout<<"El promedio del vector es: "<<promedio<<endl;
+				}
+				break;
+			case 6: 
+				{
+					cout<<"Ingrese el numero que desea encontrar: ";
+					cin>>a;
+					BusquedaLineal(vec,n,a);
+				}
+				break;
+			case 7: 
+				{
+					cout<<"Ingrese el tamano del segundo vector";
+					cin>>m;
+					cargar(b,m);
+					concatenarVector(vec,b,c,n,m);
+				}
+				break;
+			case 0:
+				{
+					cout<<"Fin Programa."<<endl;
+				}
+				break;
+			default:
+				{
+					cout<<"Opcion invalida, ingrese una correcta."<<endl;
+				}
+				break;
+		}
+	system ("pause>null");
+	system ("cls");	
+	}while(opcion!=0);
+	getch();
+}
+void cargar(int vec[],int n)
+{
+	for(int i=0;i<n;i++)
+	{
+		cout<<"Vec[ "<<i<<" ]=";
+		cin>>vec[i];
+		cout<<endl;
+	}
+}
+void mostrar(int vec[],int n)
+{
+	for(int i=0;i<n;i++)
+	{
+		cout<<"Vec[ "<<i<<" ]="<<vec[i]<<endl;
+	}
+}
+void burbujaAsc(int vec[],int n)
+{
+	for(int i = 0; i< (n - 1) ; i++)
+	for(int j = i; j< n;j++)
+     if(vec[i]>vec[j])//menor a mayor
+	 {
+       int temp = vec[i];
+       vec[i]=vec[j];
+       vec[j]=temp;
+	}
+}
+void burbujaDesc(int vec[],int n)
+{
+	for(int i = 0; i< (n - 1) ; i++)
+	for(int j = i; j< n;j++)
+     if(vec[i]<vec[j])//mayor a menor
+	 {
+       int temp = vec[i];
+       vec[i]=vec[j];
+       vec[j]=temp;
+	}
+}
+float Promedio(int vec[],int n)
+{
+	double suma=0;
+	for (int i=0;i<n;i++)
+	{
+		suma=suma+vec[i];
+	}
+	return (suma/n);
+}
+void BusquedaLineal(int vec[],int n, int a)
+{
+	int pos;
+	for(int i=0;i<n;i++)
+	{
+		if(vec[i]==a)
+		{
+			cout<<"El numero "<<a<<" se encuentra en la posicion "<<i<<endl;
+		}
+	}
+	cout<<"No se encuentra ese numero"<<endl;
+}
+void concatenarVector (int a[],int b[],int c[],int n, int m)
+{
+	int l=0;
+	for(int i=0;i<n;i++)
+	{
+		c[l]=a[i];
+		l++;
+	}
+	for(int j=0;j<m;j++)
+	{
+		c[l]=b[j];
+		l++;
+	}
+	for(int k=0;k<l;k++)
+		cout<<"c[ " << k << " ]= "<<c[k]<<endl;
+}
